@@ -32,21 +32,21 @@ class PlantManager:
 
         self.plants.append(plant)
 
-    def update(self, zombies: list):
+    def update(self, zombies):
         for p in self.plants[:]:
             if isinstance(p, MinePlant):
-                p.update(self.projectiles)
                 if p.check_explosion(zombies):
                     self.plants.remove(p)
             else:
                 p.update(self.projectiles)
+                if p.is_expired():
+                    self.plants.remove(p)
 
-        # projectiles
         for proj in self.projectiles[:]:
             proj.update()
-            # off-screen
-            if proj.rect.x > 2000:  # sufficiently large bound
+            if proj.rect.x > 900:
                 self.projectiles.remove(proj)
+
 
     def draw(self, screen: pygame.Surface):
         for p in self.plants:

@@ -24,9 +24,10 @@ class BasePlant:
         self.anim_speed = 0.15
         self.image = self.frames[0]
         self.rect = self.image.get_rect(topleft=position)
-        self.health = 5
         self.shoot_interval = 90
         self.timer = 0
+        self.shots_fired = 0
+        self.max_shots = 7  # limit per plant
 
     def update(self, projectiles):
         green_pea, _ = get_projectile_images()
@@ -37,21 +38,20 @@ class BasePlant:
             self.fidx = 0.0
         self.image = self.frames[int(self.fidx)]
 
-        # shoot
+        # shoot logic
         self.timer += 1
-        if self.timer >= self.shoot_interval:
+        if self.timer >= self.shoot_interval and self.shots_fired < self.max_shots:
             pea_pos = (self.rect.right, self.rect.centery)
             projectiles.append(Projectile(green_pea, pea_pos, speed=7, freeze=False))
             self.timer = 0
+            self.shots_fired += 1
+
+    def is_expired(self):
+        """Returns True if plant has finished shooting and should disappear."""
+        return self.shots_fired >= self.max_shots
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-        # optional HP bar
-        bar_w = self.image.get_width()
-        x, y = self.rect.x, self.rect.y - 8
-        pygame.draw.rect(screen, (180, 0, 0), (x, y, bar_w, 5))
-        green_w = int(bar_w * (self.health / 5))
-        pygame.draw.rect(screen, (0, 200, 0), (x, y, green_w, 5))
 
 
 class FreezePlant(BasePlant):
@@ -69,19 +69,20 @@ class FreezePlant(BasePlant):
             self.fidx = 0.0
         self.image = self.frames[int(self.fidx)]
 
-        # shoot (blue pea, slower)
+        # shoot logic
         self.timer += 1
-        if self.timer >= self.shoot_interval:
+        if self.timer >= self.shoot_interval and self.shots_fired < self.max_shots:
             pea_pos = (self.rect.right, self.rect.centery)
-            projectiles.append(Projectile(blue_pea, pea_pos, speed=5, freeze=True))
+            projectiles.append(Projectile(blue_pea, pea_pos, speed=6, freeze=True))
             self.timer = 0
+            self.shots_fired += 1
 
 
 class MinePlant(BasePlant):
     """Hard: explodes on contact – no shooting."""
     def __init__(self, frames, position):
         super().__init__(frames, position)
-        self.shoot_interval = 99999  # never shoot
+        self.shoot_interval = 99999  # never shoots
         self.explosion_radius_px = 40
 
     def check_explosion(self, zombies):
@@ -92,7 +93,7 @@ class MinePlant(BasePlant):
         return False
 
     def update(self, projectiles):
-        # animate only
+        # just animate (mines don't shoot)
         self.fidx += self.anim_speed
         if self.fidx >= len(self.frames):
             self.fidx = 0.0
