@@ -1,38 +1,42 @@
 import pygame
-from Entities.projectile import Projectile
 from Entities.plant_types import BasePlant, FreezePlant, MinePlant
 
 class PlantManager:
     def __init__(self):
-        self.plants: list = []
-        self.projectiles: list[Projectile] = []
+        self.plants = []
+        self.projectiles = []
+        self.pending_plant = None  # (difficulty, frames)
+        self.shoot_interval = 90
+        self.timer = 0
 
-    def add_plant(self, difficulty: str, frames_or_image, position: tuple[int, int]):
-        """Add plant by difficulty. Accepts a list of frames OR a single image."""
-        # prevent overlapping
+    def add_plant(self, difficulty, frames, position):
+        # Prevent overlapping
         for p in self.plants:
             if p.rect.collidepoint(position):
                 return
 
-        # normalize frames
-        if isinstance(frames_or_image, list):
-            frames = frames_or_image
-        else:
-            # if a single Surface is passed, just use it as a static 1-frame plant
-            frames = [frames_or_image]
-
         if difficulty == "easy":
-            plant = BasePlant(frames, position)
+            new_plant = BasePlant(frames, position)
         elif difficulty == "medium":
-            plant = FreezePlant(frames, position)
+            new_plant = FreezePlant(frames, position)
         elif difficulty == "hard":
-            plant = MinePlant(frames, position)
+            new_plant = MinePlant(frames, position)
         else:
-            plant = BasePlant(frames, position)
+            new_plant = BasePlant(frames, position)
 
-        self.plants.append(plant)
+        self.plants.append(new_plant)
+
+    def add_pending_plant(self, position):
+        """Place the plant earned by answering correctly."""
+        if not self.pending_plant:
+            return
+        difficulty, frames = self.pending_plant
+        self.add_plant(difficulty, frames, position)
+        print(f"🌱 {difficulty.capitalize()} plant placed at {position}")
+        self.pending_plant = None
 
     def update(self, zombies):
+        """Update plants and projectiles."""
         for p in self.plants[:]:
             if isinstance(p, MinePlant):
                 if p.check_explosion(zombies):
@@ -47,8 +51,7 @@ class PlantManager:
             if proj.rect.x > 900:
                 self.projectiles.remove(proj)
 
-
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen):
         for p in self.plants:
             p.draw(screen)
         for proj in self.projectiles:

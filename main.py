@@ -7,6 +7,7 @@ from Logistics.game_states import (
     STATE_START, STATE_UPLOAD, STATE_PLAY, STATE_GAME_OVER,
     draw_start_screen, draw_upload_screen, draw_game_over
 )
+from Logistics.study_system import StudySystem
 from Entities.zombie import Zombie
 from Entities.plant_manager import PlantManager
 from UI.sidebar import Sidebar
@@ -29,10 +30,15 @@ mine_frames   = loading.load_sprite_sheet("assets/plant_mine.png", 4, scale=(110
 plant_manager = PlantManager()
 sidebar = Sidebar(screen, cts.SIDEBAR_WIDTH, font)
 zombies = []
-
 spawn_timer = 0
-spawn_interval = 180  # ~3s at 60fps
+spawn_interval = 180  # ~3s
 game_state = STATE_START
+
+# --- Study System ---
+study_system = StudySystem("assets/questions.json")
+current_question = study_system.new_question()
+sidebar.set_question(current_question["question"], current_question["choices"])
+sidebar.reward_type = current_question["difficulty"]
 
 
 # --- Main Loop ---
@@ -52,22 +58,46 @@ while running:
                 game_state = STATE_PLAY
 
         elif game_state == STATE_PLAY:
+            # Handle click (only if player has earned a plant)
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mx, my = pygame.mouse.get_pos()
                 if mx <= cts.SCREEN_SIZE[0]:
                     col = (mx - cts.GRID_OFFSET[0]) // cts.CELL_SIZE[0]
                     row = (my - cts.GRID_OFFSET[1]) // cts.CELL_SIZE[1]
                     if 0 <= col < cts.GRID_COLS and 0 <= row < cts.GRID_ROWS:
-                        cell_top = cts.GRID_OFFSET[1] + row * cts.CELL_SIZE[1]
-                        y = cell_top + (cts.CELL_SIZE[1] // 2) - 60
                         x = cts.GRID_OFFSET[0] + col * cts.CELL_SIZE[0] + 10
-                        # prevent too low placement
+                        y = cts.GRID_OFFSET[1] + row * cts.CELL_SIZE[1] + 10
                         if y > (cts.SCREEN_HEIGHT - cts.BOTTOM_OFFSET - 120):
                             y = cts.SCREEN_HEIGHT - cts.BOTTOM_OFFSET - 120
-                        difficulty = random.choice(["easy", "medium", "hard"])
-                        frames = pea_frames if difficulty == "easy" else freeze_frames if difficulty == "medium" else mine_frames
-                        plant_manager.add_plant(difficulty, frames, (x, y))
-                        print(f"Placed {difficulty} at row {row}, col {col}")
+                        plant_manager.add_pending_plant((x, y))
+
+            # Handle answer input
+            elif event.type == pygame.KEYDOWN:
+                if event.key in [pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4]:
+                    idx = event.key - pygame.K_1
+                    selected_answer = sidebar.choices[idx]
+                    sidebar.selected = idx
+
+                    if study_system.check_answer(selected_answer):
+                        sidebar.result = True
+                        print("✅ Correct!")
+                        difficulty = study_system.reward_type
+                        frames = (
+                            pea_frames if difficulty == "easy"
+                            else freeze_frames if difficulty == "medium"
+                            else mine_frames
+                        )
+                        plant_manager.pending_plant = (difficulty, frames)
+                    else:
+                        sidebar.result = False
+                        print("❌ Wrong! Zombies speed up!")
+                        for z in zombies:
+                            z.speed *= 1.5
+
+                    # Load new question
+                    current_question = study_system.new_question()
+                    sidebar.set_question(current_question["question"], current_question["choices"])
+                    sidebar.reward_type = current_question["difficulty"]
 
         elif game_state == STATE_GAME_OVER:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
@@ -91,7 +121,7 @@ while running:
         plant_manager.update(zombies)
         plant_manager.draw(screen)
 
-        # Spawn zombies with offset
+        # Spawn zombies
         spawn_timer += 1
         if spawn_timer >= spawn_interval:
             lane = random.randint(0, cts.GRID_ROWS - 1)
