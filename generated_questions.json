@@ -1,0 +1,332 @@
+[
+  {
+    "question": "What color is an apple?",
+    "choices": [
+      "Blue",
+      "Green",
+      "Red",
+      "Yellow"
+    ],
+    "answer": "Red",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What sound does a cat make?",
+    "choices": [
+      "Woof",
+      "Meow",
+      "Moo",
+      "Baa"
+    ],
+    "answer": "Meow",
+    "difficulty": "easy"
+  },
+  {
+    "question": "How many sides does a triangle have?",
+    "choices": [
+      "Two",
+      "Three",
+      "Four",
+      "Five"
+    ],
+    "answer": "Three",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What number comes after 3?",
+    "choices": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "answer": "4",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What color is the sky?",
+    "choices": [
+      "Red",
+      "Blue",
+      "Green",
+      "Yellow"
+    ],
+    "answer": "Blue",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What sound does a cow make?",
+    "choices": [
+      "Woof",
+      "Meow",
+      "Moo",
+      "Baa"
+    ],
+    "answer": "Moo",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What shape has four equal sides?",
+    "choices": [
+      "Circle",
+      "Square",
+      "Triangle",
+      "Rectangle"
+    ],
+    "answer": "Square",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What number comes before 5?",
+    "choices": [
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "answer": "4",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What color is grass?",
+    "choices": [
+      "Red",
+      "Blue",
+      "Green",
+      "Yellow"
+    ],
+    "answer": "Green",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What do you say when someone gives you something?",
+    "choices": [
+      "Please",
+      "Thank you",
+      "Sorry",
+      "Hello"
+    ],
+    "answer": "Thank you",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What color is the sun?",
+    "choices": [
+      "Red",
+      "Blue",
+      "Green",
+      "Yellow"
+    ],
+    "answer": "Yellow",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is one way to help plants grow?",
+    "choices": [
+      "Give them candy",
+      "Water them",
+      "Ignore them",
+      "Cut them"
+    ],
+    "answer": "Water them",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What sound does a sheep make?",
+    "choices": [
+      "Woof",
+      "Meow",
+      "Moo",
+      "Baa"
+    ],
+    "answer": "Baa",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which shape looks like a door?",
+    "choices": [
+      "Circle",
+      "Square",
+      "Triangle",
+      "Rectangle"
+    ],
+    "answer": "Rectangle",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What number comes after 6?",
+    "choices": [
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "answer": "7",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What do you need to do before eating?",
+    "choices": [
+      "Play",
+      "Wash your hands",
+      "Sleep",
+      "Run"
+    ],
+    "answer": "Wash your hands",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the opposite of hot?",
+    "choices": [
+      "Cold",
+      "Warm",
+      "Cool",
+      "Sunny"
+    ],
+    "answer": "Cold",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the color of the sky on a clear day?",
+    "choices": [
+      "Red",
+      "Blue",
+      "Green",
+      "Yellow"
+    ],
+    "answer": "Blue",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What should you do to feel happy and strong?",
+    "choices": [
+      "Sleep early",
+      "Stay up late",
+      "Eat junk food",
+      "Skip meals"
+    ],
+    "answer": "Sleep early",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the main purpose of numbers?",
+    "choices": [
+      "To count things",
+      "To color pictures",
+      "To sing songs",
+      "To tell time"
+    ],
+    "answer": "To count things",
+    "difficulty": "hard"
+  },
+  {
+    "question": "When might it rain?",
+    "choices": [
+      "When the sun is shining",
+      "When clouds cover the sky",
+      "When it's very hot",
+      "When it's snowing"
+    ],
+    "answer": "When clouds cover the sky",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the shape of a ball?",
+    "choices": [
+      "Square",
+      "Triangle",
+      "Rectangle",
+      "Circle"
+    ],
+    "answer": "Circle",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is a good habit to have?",
+    "choices": [
+      "Brushing your teeth",
+      "Eating too much candy",
+      "Staying up all night",
+      "Ignoring friends"
+    ],
+    "answer": "Brushing your teeth",
+    "difficulty": "hard"
+  },
+  {
+    "question": "How many apples are mentioned in the study text?",
+    "choices": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "answer": "1",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the effect of rain on plants?",
+    "choices": [
+      "It harms them",
+      "It helps them grow",
+      "It makes them wilt",
+      "It has no effect"
+    ],
+    "answer": "It helps them grow",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What should you do before sharing toys with friends?",
+    "choices": [
+      "Ask permission",
+      "Take them without asking",
+      "Hide them",
+      "Ignore friends"
+    ],
+    "answer": "Ask permission",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What do we call a shape with three sides?",
+    "choices": [
+      "Square",
+      "Triangle",
+      "Circle",
+      "Rectangle"
+    ],
+    "answer": "Triangle",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What comes after 10 in the counting sequence?",
+    "choices": [
+      "9",
+      "8",
+      "11",
+      "10"
+    ],
+    "answer": "11",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the primary function of a square?",
+    "choices": [
+      "To roll",
+      "To hold",
+      "To enclose",
+      "To count"
+    ],
+    "answer": "To enclose",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which of the following is NOT a good habit?",
+    "choices": [
+      "Saying please",
+      "Helping friends",
+      "Ignoring your health",
+      "Washing hands"
+    ],
+    "answer": "Ignoring your health",
+    "difficulty": "hard"
+  }
+]

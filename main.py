@@ -1,12 +1,8 @@
 import os
-import random
 import pygame
-
 from Logistics import constants as cts
-from Logistics.file_loader import save_extracted_text
-from Logistics.loading import load_questions
 from Logistics.game_manager import GameManager
-from Logistics.ai_question_gen import generate_questions_from_text
+from Logistics.upload_manager import handle_file_upload
 
 # --- Game States ---
 STATE_START = "start"
@@ -26,7 +22,6 @@ font = pygame.font.SysFont("arial", 20)
 game = GameManager(screen, font)
 game_state = STATE_START
 uploaded_text_preview = None
-uploaded_file_path = None
 
 # ------------------------------------------------------------
 # SCREENS
@@ -48,16 +43,9 @@ def draw_upload_screen(screen, font):
     screen.blit(upload_text, (200, 300))
     screen.blit(continue_text, (200, 340))
 
-    global uploaded_text_preview
     if uploaded_text_preview:
-        preview_label = font.render("File Preview:", True, (50, 50, 50))
-        screen.blit(preview_label, (60, 380))
-        preview_lines = uploaded_text_preview.split("\n")[:5]
-        y = 410
-        for line in preview_lines:
-            preview_surface = font.render(line[:70], True, (60, 60, 60))
-            screen.blit(preview_surface, (60, y))
-            y += 24
+        preview_label = font.render(uploaded_text_preview, True, (50, 50, 50))
+        screen.blit(preview_label, (180, 380))
     else:
         warning = font.render("(⚠️ PowerPoint uploads are currently disabled)", True, (120, 0, 0))
         screen.blit(warning, (180, 380))
@@ -98,26 +86,10 @@ while running:
         elif game_state == STATE_UPLOAD:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_u:
-                    # macOS-safe upload (no Tkinter)
                     print("📂 Please enter the full path to your study file (.pdf or .txt):")
                     file_path = input("➡️ File path: ").strip()
 
-                    if os.path.exists(file_path):
-                        try:
-                            uploaded_file_path = save_extracted_text(file_path)
-                            print(f"✅ Uploaded and processed file: {uploaded_file_path}")
-
-                            # --- Generate AI Questions ---
-                            ai_questions = generate_questions_from_text(uploaded_file_path)
-                            game.sidebar.questions = ai_questions  # Replace questions.json
-                            uploaded_text_preview = ai_questions[0]["question"]
-                            print(f"🧩 {len(ai_questions)} AI-generated questions loaded for gameplay.")
-
-                        except Exception as e:
-                            uploaded_text_preview = f"⚠️ Error: {e}"
-                            print(f"⚠️ File or LLM error: {e}")
-                    else:
-                        print("⚠️ Invalid path or file not found.")
+                    uploaded_text_preview = handle_file_upload(file_path, game.sidebar)
 
                 elif event.key == pygame.K_n:
                     print("🚀 Starting game...")
@@ -136,7 +108,6 @@ while running:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 game.reset()
                 uploaded_text_preview = None
-                uploaded_file_path = None
                 game_state = STATE_START
 
     # --- DRAW PHASE ---
