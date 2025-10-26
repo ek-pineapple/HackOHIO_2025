@@ -1,7 +1,7 @@
 import pygame
 from Entities.plant_types import MinePlant, BasePlant, FreezePlant
 
-def handle_projectile_collisions(projectiles, zombies):
+def handle_projectile_collisions(projectiles: list, zombies: list) -> None:
     for proj in projectiles[:]:
         hit = False
         for z in zombies[:]:
@@ -16,27 +16,27 @@ def handle_projectile_collisions(projectiles, zombies):
         if hit and proj in projectiles:
             projectiles.remove(proj)
 
-def handle_zombie_plant_collisions(zombies, plants):
+
+def handle_zombie_plant_collisions(zombies: list, plants: list) -> None:
     for z in zombies[:]:
         collided = False
         for p in plants[:]:
             if z.rect.colliderect(p.rect):
                 collided = True
                 if isinstance(p, MinePlant):
-                    # explosion handled in plant_manager.update; here ensure removal on overlap as fallback
-                    pass
-                else:
-                    # shooters get eaten
-                    z.speed = 0
-                    if not hasattr(z, "bite_timer"):
-                        z.bite_timer = 0
-                    z.bite_timer += 1
-                    if z.bite_timer >= 30:  # ~0.5s
-                        p.health -= 1
-                        z.bite_timer = 0
-                        if p.health <= 0 and p in plants:
-                            plants.remove(p)
-                            z.speed = 1
+                    # skip mine; handled via PlantManager explosion
+                    continue
+                # shooter being eaten
+                z.speed = 0
+                if not hasattr(z, "bite_timer"):
+                    z.bite_timer = 0
+                z.bite_timer += 1
+                if z.bite_timer >= 30:
+                    p.health -= 1
+                    z.bite_timer = 0
+                    if p.health <= 0 and p in plants:
+                        plants.remove(p)
+                        z.speed = z.base_speed
                 break
         if not collided:
-            z.speed = 1
+            z.speed = z.base_speed

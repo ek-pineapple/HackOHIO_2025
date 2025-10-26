@@ -1,6 +1,7 @@
 import pygame
 import json
 import os
+import random
 
 
 def load_image(path, scale=None, keep_aspect=True):
@@ -51,3 +52,21 @@ def load_json(path):
         return {}
     with open(path, 'r') as f:
         return json.load(f)
+    
+
+# ---------------------------
+# QUESTION LOADING UTILITIES
+# ---------------------------
+
+def load_questions(path="assets/questions.json"):
+    """Load all study questions from JSON file."""
+    with open(path, "r") as f:
+        return json.load(f)
+
+def get_random_question(questions, difficulty=None):
+    """Return a random question. If difficulty is given, filter by it."""
+    if difficulty:
+        filtered = [q for q in questions if q["difficulty"] == difficulty]
+        if filtered:
+            return random.choice(filtered)
+    return random.choice(questions)
