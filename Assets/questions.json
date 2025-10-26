@@ -1,0 +1,43 @@
+[
+  {
+    "question": "What is the capital of France?",
+    "choices": ["Berlin", "Madrid", "Paris", "Rome"],
+    "answer": "Paris",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which gas do plants absorb from the atmosphere?",
+    "choices": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+    "answer": "Carbon Dioxide",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which planet is known as the Red Planet?",
+    "choices": ["Earth", "Venus", "Mars", "Jupiter"],
+    "answer": "Mars",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which ocean is the largest on Earth?",
+    "choices": ["Atlantic", "Indian", "Pacific", "Arctic"],
+    "answer": "Pacific",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What does CPU stand for?",
+    "choices": [
+      "Central Processing Unit",
+      "Computer Personal Unit",
+      "Central Process Utility",
+      "Core Processor Unit"
+    ],
+    "answer": "Central Processing Unit",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the powerhouse of the cell?",
+    "choices": ["Nucleus", "Mitochondria", "Ribosome", "Cytoplasm"],
+    "answer": "Mitochondria",
+    "difficulty": "hard"
+  }
+]

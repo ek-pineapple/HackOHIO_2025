@@ -1,22 +1,33 @@
 import pygame
 
 class Projectile:
-    def __init__(self, image, position, speed=7, freeze=False):
-        # Target: pea ≈ 1/4 of plant (plants ≈120px → pea ≈30px tall)
+    def __init__(
+        self,
+        image: pygame.Surface,
+        position: tuple[int | float, int | float],
+        speed: float = 7,
+        freeze: bool = False,
+    ) -> None:
+        """A single projectile fired by a plant."""
         desired_height = 30
         w, h = image.get_size()
         scale_factor = desired_height / h
         new_w = int(w * scale_factor)
         new_h = int(h * scale_factor)
 
-        self.image = pygame.transform.smoothscale(image, (new_w, new_h))
-        self.rect = self.image.get_rect(center=position)
+        self.image: pygame.Surface = pygame.transform.smoothscale(image, (new_w, new_h))
 
-        self.speed = speed
-        self.freeze = freeze
+        # ensure integer center for rect
+        center_pos = (int(position[0]), int(position[1]))
+        self.rect: pygame.Rect = self.image.get_rect(center=center_pos)
 
-    def update(self):
-        self.rect.x += self.speed
+        self.speed: float = speed
+        self.freeze: bool = freeze
+        self.x: float = float(self.rect.x)  # smooth movement tracking
 
-    def draw(self, screen):
+    def update(self) -> None:
+        self.x += self.speed
+        self.rect.x = int(self.x)
+
+    def draw(self, screen: pygame.Surface) -> None:
         screen.blit(self.image, self.rect)
